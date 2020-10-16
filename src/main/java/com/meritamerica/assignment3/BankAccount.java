@@ -3,10 +3,11 @@ import java.util.*;
 import java.text.*;
 
 	public class BankAccount {
-		static private double balance;
-		static private double interestRate;
-		static private java.util.Date accountOpenedOn;
-		static private long accountNumber;
+		static public double balance;
+		static public double interestRate;
+		static public java.util.Date accountOpenedOn;
+		static public long accountNumber;
+		static public int term;
 		
 		BankAccount(double balance, double interestRate){
 			this.balance = balance;
@@ -80,6 +81,7 @@ import java.text.*;
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String dateString = accountValues.get(3);
 				java.util.Date accountOpenedOn = new java.util.Date(dateString);
+				accountOpenedOn = simpleDateFormat.parse(dateString);
 				bankAccount = new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
 				return bankAccount;
 			}
