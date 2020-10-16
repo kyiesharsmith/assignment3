@@ -1,18 +1,16 @@
 package com.meritamerica.assignment3;
-import java.text.ParseException;
 import java.util.*;
 import java.text.*;
 
 	public class BankAccount {
-		private double balance;
-		private double interestRate;
-		private java.util.Date accountOpenedOn;
-		private long accountNumber;
+		static private double balance;
+		static private double interestRate;
+		static private java.util.Date accountOpenedOn;
+		static private long accountNumber;
 		
 		BankAccount(double balance, double interestRate){
 			this.balance = balance;
-			this.interestRate = interestRate;
-			
+			this.interestRate = interestRate;		
 			this.accountNumber = -1;
 		}
 		BankAccount(double balance, double interestRate, java.util.Date accountOpenedOn){
@@ -22,8 +20,7 @@ import java.text.*;
 		}
 		BankAccount(long accountNumber, double balance, double interestRate){
 			this.balance = balance;
-			this.interestRate = interestRate;
-			
+			this.interestRate = interestRate;	
 			this.accountNumber = accountNumber;
 		}
 		BankAccount(long accountNumber, double balance, double interestRate, java.util.Date accountOpenedOn){
@@ -70,19 +67,26 @@ import java.text.*;
 		public double futureValue(int years) {
 			return this.balance * (Math.pow(1 + this.interestRate, years));
 		}
-		static BankAccount readFromString(String accountData)throws ParseException {
-			try {
-				String [] accountValues = accountData.split(",");
-				long accountNumber = Long.parseLong(accountValues[0]);
-				double balance = Double.parseDouble(accountValues[1]);
-				double interestRate = Double.parseDouble(accountValues[2]);
+		//accepts a string, then converts it into appropriate data types, returns BankAccount
+		static BankAccount readFromString(String accountData)throws ParseException 
+		{
+			BankAccount bankAccount;
+			try 
+			{
+				ArrayList<String> accountValues = new ArrayList<String>(Arrays.asList(accountData.split(",")));
+				long accountNumber = Long.parseLong(accountValues.get(0));
+				double balance = Double.parseDouble(accountValues.get(1));
+				double interestRate = Double.parseDouble(accountValues.get(2));
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				String dateString = accountValues[3];
+				String dateString = accountValues.get(3);
 				java.util.Date accountOpenedOn = new java.util.Date(dateString);
-				return BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
+				bankAccount = new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
+				return bankAccount;
 			}
-			catch(ParseException e) {
-				e.printStackTrace();
+			catch(NumberFormatException nfe) 
+			{
+				nfe.printStackTrace();
+				throw new java.lang.NumberFormatException();
 			}
 		}
 		

@@ -1,8 +1,5 @@
 package com.meritamerica.assignment3;
 
-	import com.meritamerica.assignment3.BankAccount;
-	import com.meritamerica.assignment3.CDOffering;
-
 	public class CDAccount extends BankAccount {
 		private  CDOffering offering;
 		private java.util.Date startDate;
