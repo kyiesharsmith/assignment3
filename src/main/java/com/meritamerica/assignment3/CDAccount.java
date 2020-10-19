@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CDAccount extends BankAccount {
-		private  CDOffering offering;
+		private static CDOffering offering;
 		private java.util.Date startDate;
 		
 		CDAccount(CDOffering offering, double balance){
@@ -62,9 +62,9 @@ public class CDAccount extends BankAccount {
 				double interestRate = Double.parseDouble(accountValues.get(2));
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String dateString = accountValues.get(3);
-				int term = Integer.parseInt(accountValues.get(4));
 				java.util.Date accountOpenedOn = new java.util.Date(dateString);
 				accountOpenedOn = simpleDateFormat.parse(dateString);
+				int term = Integer.parseInt(accountValues.get(4));
 				cdAccount = new CDAccount(accountNumber, balance, interestRate, accountOpenedOn, term);
 				return cdAccount;
 			}

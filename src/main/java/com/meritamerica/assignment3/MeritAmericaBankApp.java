@@ -35,7 +35,7 @@ public class MeritAmericaBankApp {
 		ah2.addSavingsAccount(10000);
 		ah2.addCDAccount(MeritBank.getSecondBestCDOffering(100),100);
 		MeritBank.addAccountHolder(ah2);
-		MeritBank.clearCDOfferings();
+		//MeritBank.clearCDOfferings();
 		
 		AccountHolder ah3 = new AccountHolder();
 		ah3.addCDAccount(MeritBank.getSecondBestCDOffering(100),100);
@@ -43,5 +43,7 @@ public class MeritAmericaBankApp {
 		ah3.addSavingsAccount(10000);
 		MeritBank.addAccountHolder(ah3);
 		double totalBalance = MeritBank.totalBalances();
+		
+		//MeritBank.readFromFile("src/test/testMeritBank_good.txt");
 	}
 }

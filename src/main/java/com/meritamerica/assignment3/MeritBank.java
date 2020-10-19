@@ -1,6 +1,6 @@
 package com.meritamerica.assignment3;
-	import java.util.Arrays;
-	import java.util.Random;
+	import java.util.*;
+	import java.io.*;
 
 	public class MeritBank {
 		
@@ -57,9 +57,7 @@ package com.meritamerica.assignment3;
 			return secondBest;
 		}
 		static void clearCDOfferings() {
-			MeritBank.cds = null;
-			
-			
+			MeritBank.cds = null;		
 		}
 		static void setCDOfferings(CDOffering[] offerings) {
 			MeritBank.cds = offerings;
@@ -77,5 +75,61 @@ package com.meritamerica.assignment3;
 		}
 		static double futureValue(double presentValue, double interestRate, int term) {
 			return presentValue * (Math.pow(1 + interestRate, term));
+		}
+		static boolean readFromFile(String fileName){
+			try
+			{
+				ArrayList<String> fileLines = new ArrayList<String>();
+				BufferedReader br = new BufferedReader(new FileReader(fileName));
+				while(br.ready()) {
+					fileLines.add(br.readLine());
+				}
+				accountnumber = Long.parseLong(fileLines.get(0));
+				int offeringLength = Integer.parseInt(fileLines.get(1));
+				cds = new CDOffering[offeringLength];
+				for(int i = 2; i < 5; i++) {
+					for(int x = 0; x < 2; x++) {
+					cds[x] = CDOffering.readFromString(fileLines.get(i));
+					}
+				}
+				AccountHolder[] total = new AccountHolder[2];
+				//total[0] = fileLines.get(6);
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			return true;
+		}
+		
+		static boolean writeToFile(String fileName) {
+			
+			try
+			{
+				BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			return true;
+		}
+
+		static AccountHolder[] sortAccountHolders() {
+		AccountHolder[] sortedAccountHolder = customers;
+		Arrays.sort(sortedAccountHolder);
+			return sortedAccountHolder;
+		}
+		
+		static void setNextAccountNumber(long nextAccountNumber) {
+			nextAccountNumber = nextAccountNumber+1;
 		}
 	}

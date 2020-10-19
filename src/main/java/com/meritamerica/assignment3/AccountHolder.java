@@ -1,4 +1,7 @@
 package com.meritamerica.assignment3;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.meritamerica.assignment3.BankAccount;
@@ -7,15 +10,59 @@ import com.meritamerica.assignment3.CDOffering;
 import com.meritamerica.assignment3.CheckingAccount;
 import com.meritamerica.assignment3.SavingsAccount;
 
-	public class AccountHolder {
+	public class AccountHolder implements Comparable<AccountHolder>{
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + Arrays.hashCode(accounts);
+			result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+			result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+			result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
+			result = prime * result + ((ssn == null) ? 0 : ssn.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			AccountHolder other = (AccountHolder) obj;
+			if (!Arrays.equals(accounts, other.accounts))
+				return false;
+			if (firstName == null) {
+				if (other.firstName != null)
+					return false;
+			} else if (!firstName.equals(other.firstName))
+				return false;
+			if (lastName == null) {
+				if (other.lastName != null)
+					return false;
+			} else if (!lastName.equals(other.lastName))
+				return false;
+			if (middleName == null) {
+				if (other.middleName != null)
+					return false;
+			} else if (!middleName.equals(other.middleName))
+				return false;
+			if (ssn == null) {
+				if (other.ssn != null)
+					return false;
+			} else if (!ssn.equals(other.ssn))
+				return false;
+			return true;
+		}
+
 		public static final int YEARS = 3;
 			
 			//instance variables
 			private String firstName;
 			private String middleName;
 			private String lastName;
-			private String ssn;
-			
+			private String ssn;		
 			private BankAccount[] accounts;
 			
 			
@@ -312,11 +359,44 @@ import com.meritamerica.assignment3.SavingsAccount;
 				}
 				return balance;
 			}
-			
-			
+			//casts to int, may need to fix this if sorting fails
+			public int compareTo(AccountHolder otherAccountHolder){
+				if(this.getCombinedBalance() > otherAccountHolder.getCombinedBalance()){
+					return 1;
+					} else if (this.getCombinedBalance() == otherAccountHolder.getCombinedBalance()) {
+						return 0;
+					} else {
+						return -1;
+					}
+				}
 			
 			public String toString() {
 				return "Name: " + this.firstName + this.middleName + this.lastName +"\n"
 						+ "SSN: " + this.ssn +"\n";
+			}
+			
+			public String writeToString() {
+				return "Name: " + this.firstName + this.middleName + this.lastName +"\n"
+						+ "SSN: " + this.ssn +"\n";
+			}
+			
+			static AccountHolder readFromString(String accountHolderData)throws ParseException 
+			{
+				AccountHolder accountHolder;
+				try 
+				{
+					ArrayList<String> accountValues = new ArrayList<String>(Arrays.asList(accountHolderData.split(",")));  
+					String firstName = (accountValues.get(0));
+					String middleName = (accountValues.get(1));
+					String lastName = (accountValues.get(2));
+					String ssn = accountValues.get(3);
+					accountHolder = new AccountHolder(firstName, middleName, lastName, ssn);
+					return accountHolder;
+				}
+				catch(NumberFormatException nfe) 
+				{
+					nfe.printStackTrace();
+					throw new java.lang.NumberFormatException();
+				}
 			}
 	}
